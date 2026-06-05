@@ -175,6 +175,111 @@ button:hover {
     margin-bottom: 1rem;
 }
 
+.page-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.nav-button {
+    border: 0;
+    border-radius: 999px;
+    background: var(--accent);
+    color: white;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    font: inherit;
+    font-weight: 800;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+}
+
+.nav-button:hover {
+    background: var(--accent-dark);
+    text-decoration: none;
+}
+
+.nav-button.secondary {
+    background: #fff7ef;
+    border: 1px solid var(--border);
+    color: var(--accent-dark);
+}
+
+.nav-button.secondary:hover {
+    background: #f7eadc;
+}
+
+.helper-text {
+    color: var(--muted);
+    margin-top: -0.4rem;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.family-table {
+    border-collapse: collapse;
+    min-width: 720px;
+    width: 100%;
+}
+
+.family-table th,
+.family-table td {
+    border-bottom: 1px solid var(--border);
+    padding: 0.85rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.family-table th {
+    background: #fbf8f3;
+    color: var(--muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.family-table small {
+    color: var(--muted);
+    display: block;
+}
+
+.path-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    list-style: none;
+    margin: 1rem 0;
+    padding: 0;
+}
+
+.path-list li {
+    background: #fbf8f3;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.55rem 0.85rem;
+    position: relative;
+}
+
+.path-list li + li::before {
+    color: var(--muted);
+    content: "→";
+    left: -0.65rem;
+    position: absolute;
+}
+
+.path-list small {
+    color: var(--muted);
+    margin-left: 0.25rem;
+}
+
+.relationship-summary h3 {
+    margin-bottom: 0.4rem;
+}
+
 .profile-card {
     display: grid;
     gap: 1.5rem;

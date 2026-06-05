@@ -2,7 +2,10 @@
 {% block title %}{{ details.person.display_name(current_language) }} | HRP Family Tree{% endblock %}
 
 {% block content %}
-<nav class="breadcrumb"><a href="{{ url_for('index') }}">← Back to search</a></nav>
+<nav class="page-actions" aria-label="Detail page navigation">
+    <button class="nav-button" type="button" onclick="history.back()">← Back</button>
+    <a class="nav-button secondary" href="{{ url_for('index') }}">⌂ Home</a>
+</nav>
 
 <section class="profile-card">
     <div>
@@ -57,12 +60,98 @@
                 {% for related in details.children %}
                     <li>
                         <a href="{{ url_for('person_detail', person_id=related.person.person_id) }}">{{ related.person.display_name(current_language) }}</a>
-                        <span>{{ related.person.display_place(current_language) }}</span>
+                        <span>Child serial {{ related.relation.child_sequence_label or 'not listed' }} · {{ related.person.display_place(current_language) }}</span>
                     </li>
                 {% endfor %}
             </ul>
         {% else %}
             <p class="empty-state">No child records found.</p>
+        {% endif %}
+    </section>
+
+    <section class="relationship-card wide-card">
+        <h2>Family rows by child serial number</h2>
+        <p class="helper-text">Rows involving this person are sorted by <strong>csl</strong> and displayed as Father (pid), Mother (mid), then Child (cid).</p>
+        {% if details.ordered_family_rows %}
+            <div class="table-wrap">
+                <table class="family-table">
+                    <thead>
+                        <tr>
+                            <th>csl</th>
+                            <th>Father (pid)</th>
+                            <th>Mother (mid)</th>
+                            <th>Child (cid)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in details.ordered_family_rows %}
+                            <tr>
+                                <td>{{ row.relation.child_sequence_label or '—' }}</td>
+                                <td>
+                                    {% if row.father %}
+                                        <a href="{{ url_for('person_detail', person_id=row.father.person_id) }}">{{ row.father.display_name(current_language) }}</a>
+                                        <small>ID {{ row.father.person_id }}</small>
+                                    {% else %}
+                                        <span class="empty-state">Not listed</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if row.mother %}
+                                        <a href="{{ url_for('person_detail', person_id=row.mother.person_id) }}">{{ row.mother.display_name(current_language) }}</a>
+                                        <small>ID {{ row.mother.person_id }}</small>
+                                    {% else %}
+                                        <span class="empty-state">Not listed</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if row.child %}
+                                        <a href="{{ url_for('person_detail', person_id=row.child.person_id) }}">{{ row.child.display_name(current_language) }}</a>
+                                        <small>ID {{ row.child.person_id }}</small>
+                                    {% else %}
+                                        <span class="empty-state">Not listed</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="empty-state">No family relationship rows found for this person.</p>
+        {% endif %}
+    </section>
+
+    <section class="relationship-card wide-card relationship-summary">
+        <h2>Relationship to family root</h2>
+        {% if details.root_person %}
+            <p class="helper-text">Family root is the first <strong>pid</strong> in the relationship data: {{ details.root_person.display_name(current_language) }} (ID {{ details.root_person.person_id }}).</p>
+        {% endif %}
+
+        {% if details.relationship_to_root %}
+            <ol class="path-list">
+                {% for person in details.relationship_to_root %}
+                    <li>
+                        <a href="{{ url_for('person_detail', person_id=person.person_id) }}">{{ person.display_name(current_language) }}</a>
+                        <small>ID {{ person.person_id }}</small>
+                    </li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <p class="empty-state">No relationship path from the first pid to this person was found.</p>
+        {% endif %}
+
+        <h3>Person with no parent available in this screen's lineage</h3>
+        {% if details.earliest_known_people %}
+            <ul class="compact-list">
+                {% for person in details.earliest_known_people %}
+                    <li>
+                        <a href="{{ url_for('person_detail', person_id=person.person_id) }}">{{ person.display_name(current_language) }}</a>
+                        <span>ID {{ person.person_id }} · {{ person.display_place(current_language) }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-state">No no-parent person could be determined for this screen.</p>
         {% endif %}
     </section>
 
