@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}{{ details.person.display_name(current_language) }} | HRP Family Tree{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb"><a href="{{ url_for('index') }}">← Back to search</a></nav>
+
+<section class="profile-card">
+    <div>
+        <p class="eyebrow">Selected person</p>
+        <h1>{{ details.person.display_name(current_language) }}</h1>
+        {% if details.person.name_english and details.person.name_kannada %}
+            <p class="alternate-name">{{ details.person.name_kannada if current_language == 'en' else details.person.name_english }}</p>
+        {% endif %}
+    </div>
+    <dl class="profile-facts">
+        <div><dt>ID</dt><dd>{{ details.person.person_id }}</dd></div>
+        <div><dt>Place</dt><dd>{{ details.person.display_place(current_language) }}</dd></div>
+        <div><dt>Generation</dt><dd>{{ details.person.generation or 'Unknown' }}</dd></div>
+        <div><dt>Gotra</dt><dd>{{ details.person.gotra or 'Not listed' }}</dd></div>
+    </dl>
+    {% if details.person.notes %}
+        <p class="notes">{{ details.person.notes }}</p>
+    {% endif %}
+</section>
+
+<div class="relationship-grid">
+    <section class="relationship-card">
+        <h2>Parents</h2>
+        {% if details.parents %}
+            <ul class="compact-list">
+                {% for related in details.parents %}
+                    <li><a href="{{ url_for('person_detail', person_id=related.person.person_id) }}">{{ related.person.display_name(current_language) }}</a><span>{{ related.person.display_place(current_language) }}</span></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-state">No parent records found.</p>
+        {% endif %}
+    </section>
+
+    <section class="relationship-card">
+        <h2>Spouse</h2>
+        {% if details.spouses %}
+            <ul class="compact-list">
+                {% for related in details.spouses %}
+                    <li><a href="{{ url_for('person_detail', person_id=related.person.person_id) }}">{{ related.person.display_name(current_language) }}</a><span>{{ related.person.display_place(current_language) }}</span></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-state">No spouse records found.</p>
+        {% endif %}
+    </section>
+
+    <section class="relationship-card wide-card">
+        <h2>Children</h2>
+        {% if details.children %}
+            <ul class="compact-list two-column-list">
+                {% for related in details.children %}
+                    <li>
+                        <a href="{{ url_for('person_detail', person_id=related.person.person_id) }}">{{ related.person.display_name(current_language) }}</a>
+                        <span>{{ related.person.display_place(current_language) }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-state">No child records found.</p>
+        {% endif %}
+    </section>
+
+    <section class="relationship-card wide-card">
+        <h2>Additional relationship notes</h2>
+        {% if details.relationship_notes %}
+            <ul class="notes-list">
+                {% for note in details.relationship_notes %}
+                    <li>{{ note }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-state">No additional relationship notes found.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

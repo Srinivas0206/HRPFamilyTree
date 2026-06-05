@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Search People | HRP Family Tree{% endblock %}
+
+{% block content %}
+<section class="hero-card">
+    <h1>Find a person</h1>
+    <p>Search {{ total_people }} records by partial first name, last name, place, gotra, or notes.</p>
+    <form class="search-form" method="get" action="{{ url_for('index') }}">
+        <label class="sr-only" for="q">Search people</label>
+        <input id="q" name="q" type="search" value="{{ query }}" placeholder="Example: Kiran, Bhatta, Bengaluru" autofocus>
+        <button type="submit">Search</button>
+    </form>
+</section>
+
+{% if query %}
+<section class="results-card">
+    <div class="section-heading">
+        <h2>Search results</h2>
+        <span>{{ matching_people|length }} match{{ '' if matching_people|length == 1 else 'es' }}</span>
+    </div>
+
+    {% if matching_people %}
+        <ul class="person-list">
+            {% for person in matching_people %}
+                <li>
+                    <a href="{{ url_for('person_detail', person_id=person.person_id) }}">
+                        <strong>{{ person.display_name(current_language) }}</strong>
+                        <span>{{ person.display_place(current_language) }}</span>
+                        <small>ID {{ person.person_id }}{% if person.generation %} · Generation {{ person.generation }}{% endif %}</small>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="empty-state">No people matched “{{ query }}”. Try a shorter partial name or place.</p>
+    {% endif %}
+</section>
+{% endif %}
+{% endblock %}

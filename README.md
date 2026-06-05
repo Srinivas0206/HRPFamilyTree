@@ -1,21 +1,62 @@
-# HRPFamilyTree
-This is a sample AI Code Generation project for the Family Tree Web Application.
-This web application has the following functionality and features in searching and displaying family tree from the given data sets: persons and relations.
-FamilyTreeSchema.pdf file shows the two data set schemas for the persons and relations data sets.
-Supported functionality of the HRPFamilyTree Application is as below:
-1. Ability search a person by his name, place and other details as in Persons details. One should be able to 
-search by giving partial details of the person like few letters of name or place or some combination of it.
-2. Ability to get complete detail of the person as in Persons table. Also place name of the male parent of the 
-child where exists by connecting to Relation table
-3. Ability to see the family details like spouse, children and their places of stay
-4. Parent family details of the person where he/she is a child in similar format as (3) above
-5. List (3) and (4) above should also include relatives connected (i.e. Relation table csl column values f1, f2, 
-f3…) along with their relation description as given in whoK / whoE columns of relation table
-6. Relation of the person to the root person in the vamshavriksha as a sequence of back tracing through 
-relation hierarchy. For example: child → his parents → in turn their parents so on. Where Relation table csl  
-column values f1, f2, f3… is encountered, then next level relation should be derived from relnK / relnE 
-columns of Relation table..
-7. Other functionalities include:
-  a) Ability to toggle the application display language between Kannada and English
-  b) Application wide Increase and decrease of font size
-  c) Button/icons for help based on context for entering the text or navigation between screens
+# HRP Family Tree
+
+HRP Family Tree is a Flask web application for searching the provided family tree CSV datasets and viewing relationship details for a selected person.
+
+## Features
+
+- Search the Persons dataset using partial names, places, gotra, notes, or identifiers.
+- Display matching people in a simple, clickable results list.
+- Show detailed information for a selected person:
+  - Full name and alternate-language name
+  - Place, generation, gotra, and notes
+  - Parents
+  - Spouse or spouses discovered through relationship records
+  - Children
+  - Additional relationship notes from the relationship dataset
+- Toggle display names and places between English and Kannada.
+- Modular Python structure for future maintenance:
+  - `app.py` creates the Flask application and routes.
+  - `family_tree/models.py` defines data models.
+  - `family_tree/repository.py` loads and indexes CSV data.
+  - `family_tree/services.py` assembles view-friendly family details.
+  - `templates/` contains the HTML pages.
+  - `static/` contains styling.
+
+## Data Files
+
+The app expects these CSV files in the repository root:
+
+- `personsData.csv`
+- `relation.csv`
+
+`relation.csv` is interpreted as parent/spouse-to-child rows where `pid` and `mid` identify the parent pair and `cid` identifies the child.
+
+## Local Setup
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Run the Application
+
+```bash
+flask --app app run
+```
+
+Then open <http://127.0.0.1:5000> and search for a person, such as `Kiran`, `Bhatta`, or `Bengaluru`.
+
+## Run Tests
+
+```bash
+python -m pytest
+```
+
+## Deployment
+
+The included `render.yaml` can be used as a starting point for Render deployment. The app also exposes the module-level `app` object for WSGI servers such as Gunicorn:
+
+```bash
+gunicorn app:app
+```
