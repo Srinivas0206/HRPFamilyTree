@@ -1,0 +1,269 @@
+:root {
+    color-scheme: light;
+    --background: #f4f1ea;
+    --card: #ffffff;
+    --ink: #2f241e;
+    --muted: #6f6258;
+    --accent: #8f4f24;
+    --accent-dark: #6e3a17;
+    --border: #e2d8cc;
+    --shadow: 0 18px 40px rgba(47, 36, 30, 0.12);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: linear-gradient(135deg, #faf7f0 0%, var(--background) 100%);
+    color: var(--ink);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.6;
+}
+
+a {
+    color: var(--accent-dark);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.site-header,
+.site-footer,
+.content {
+    width: min(1100px, calc(100% - 2rem));
+    margin: 0 auto;
+}
+
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    padding: 1.5rem 0;
+}
+
+.brand {
+    color: var(--ink);
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+
+.tagline {
+    margin: 0.2rem 0 0;
+    color: var(--muted);
+}
+
+.language-switcher {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.5rem 0.75rem;
+}
+
+.language-switcher select,
+.search-form input {
+    border: 1px solid var(--border);
+    border-radius: 0.8rem;
+    font: inherit;
+}
+
+.content {
+    padding: 1rem 0 3rem;
+}
+
+.hero-card,
+.results-card,
+.profile-card,
+.relationship-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+    box-shadow: var(--shadow);
+}
+
+.hero-card,
+.results-card,
+.profile-card {
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    margin-bottom: 1.5rem;
+}
+
+.hero-card h1,
+.profile-card h1 {
+    margin: 0;
+    font-size: clamp(2rem, 6vw, 4rem);
+    line-height: 1.1;
+}
+
+.search-form {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.search-form input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.95rem 1rem;
+}
+
+button {
+    border: 0;
+    border-radius: 0.8rem;
+    background: var(--accent);
+    color: white;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+    padding: 0.95rem 1.25rem;
+}
+
+button:hover {
+    background: var(--accent-dark);
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
+}
+
+.person-list,
+.compact-list,
+.notes-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.person-list li + li,
+.compact-list li + li,
+.notes-list li + li {
+    border-top: 1px solid var(--border);
+}
+
+.person-list a,
+.compact-list li,
+.notes-list li {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.9rem 0;
+}
+
+.person-list span,
+.compact-list span,
+.person-list small,
+.empty-state,
+.alternate-name,
+.notes,
+.eyebrow,
+.profile-facts dt {
+    color: var(--muted);
+}
+
+.breadcrumb {
+    margin-bottom: 1rem;
+}
+
+.profile-card {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.eyebrow {
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    margin: 0 0 0.5rem;
+    text-transform: uppercase;
+}
+
+.profile-facts {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    margin: 0;
+}
+
+.profile-facts div {
+    background: #fbf8f3;
+    border: 1px solid var(--border);
+    border-radius: 0.9rem;
+    padding: 0.8rem;
+}
+
+.profile-facts dt {
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.profile-facts dd {
+    margin: 0.2rem 0 0;
+    font-weight: 700;
+}
+
+.relationship-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.relationship-card {
+    padding: 1.25rem;
+}
+
+.relationship-card h2 {
+    margin-top: 0;
+}
+
+.wide-card {
+    grid-column: 1 / -1;
+}
+
+.two-column-list {
+    columns: 2 260px;
+    column-gap: 2rem;
+}
+
+.site-footer {
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    padding: 1.5rem 0 2rem;
+}
+
+.sr-only {
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
+}
+
+@media (max-width: 700px) {
+    .site-header,
+    .search-form,
+    .relationship-grid {
+        display: block;
+    }
+
+    .language-switcher,
+    .search-form button {
+        margin-top: 1rem;
+        width: 100%;
+    }
+
+    .search-form input {
+        width: 100%;
+    }
+}
